@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-	navigate = useNavigate();
+	const navigate = useNavigate();
 	return (
 		<section className='page-container home-screen'>
 			<h1 className='home-screen-heading'>LearnFeed</h1>
