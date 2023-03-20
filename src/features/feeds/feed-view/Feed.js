@@ -75,7 +75,8 @@ const FeedView = ({ feed, setFeed }) => {
 			dispatch(updateFeed({id:feed._id.toString(), fields:updatedFields}));
 			setFeed({...feed, ...updatedFields});
 		} catch (err) {
-			console.log(err);
+			const errMessage = err.response?.data?.message || "Something went Wrong!"
+			toast.error(errMessage);
 		}
 	}
 	const feedBody = 

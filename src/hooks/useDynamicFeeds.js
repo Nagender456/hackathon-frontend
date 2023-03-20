@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addFeeds, renewFeeds } from '../features/feeds/feedsSlice';
 import useAxiosPrivate from './useAxiosPrivate';
+import { toast } from 'react-toastify';
 
 const useDynamicFeeds = (pageNum, creator, query) => {
 	const [isLoading, setIsloading] = useState(true);
-	const [isError, setIsError] = useState(false);
-	const [error, setError] = useState({});
 	const [hasNextPage, setHasNextPage] = useState(true);
 	const [zeroFeeds, setZeroFeeds] = useState(false);
 	
@@ -16,12 +15,9 @@ const useDynamicFeeds = (pageNum, creator, query) => {
 	useEffect(() => {
 		const controller = new AbortController();
 		const fetchFeeds = async (pageNum, creator, query) => {
-			console.log('pageNum', pageNum);
-			console.log('creator', creator);
-			console.log('query', query);
 			setIsloading(true);
 			setZeroFeeds(false);
-			dispatch(renewFeeds(query))
+			dispatch(renewFeeds({creator, query}))
 			try {
 				const response = await axios.get(`/feeds`, {
 					signal: controller.signal,
@@ -40,9 +36,7 @@ const useDynamicFeeds = (pageNum, creator, query) => {
 				if (err.name === 'CanceledError') {
 					return;
 				}
-				setIsError(true);
-				setError(err?.response?.data?.message);
-				console.log(err);
+				console.log(err)
 			} finally {
 				setIsloading(false);
 			}
@@ -51,7 +45,7 @@ const useDynamicFeeds = (pageNum, creator, query) => {
 		return () => controller.abort();
 	}, [pageNum, creator, query])
 
-	return [isLoading, isError, error, hasNextPage, zeroFeeds];
+	return [isLoading, hasNextPage, setHasNextPage, zeroFeeds];
 }
 
 export default useDynamicFeeds;

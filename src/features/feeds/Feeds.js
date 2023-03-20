@@ -11,7 +11,7 @@ const Feeds = () => {
 	const { creator } = useParams();
 	const [pageNum, setPageNum] = useState(1);
 	const [query, setQuery] = useState('');
-	const [isLoading, isError, error, hasNextPage, zeroFeeds] = useDynamicFeeds(pageNum, creator, query);
+	const [isLoading, hasNextPage, setHasNextPage, zeroFeeds] = useDynamicFeeds(pageNum, creator, query);
 	
 	const intObserver = useRef();
 	const lastFeedRef = useCallback(post => {
@@ -27,6 +27,7 @@ const Feeds = () => {
 	}, [isLoading, hasNextPage])
 	useEffect(() => {
 		setPageNum(1);
+		setHasNextPage(true);
 	}, [creator, query])
 	return (
 		<>

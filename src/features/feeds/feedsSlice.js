@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import * as api from '../../api/index';
 
 const initialState = {
-	query: '',
+	params: {},
 	feeds: [],
 };
 
@@ -34,10 +34,12 @@ export const feedsSlice = createSlice({
 			state.feeds[index] = {...state.feeds[index], ...action.payload.fields}
 		},
 		renewFeeds: (state, action) => {
-			const curQuery = action.payload;
-			if (state.query === curQuery) return
+			const curParams = action.payload;
+			console.log(curParams)
+			if (JSON.stringify(state.params) === JSON.stringify(curParams)) return
+			console.log("Clearing Posts!")
 			state.feeds = []
-			state.query = curQuery
+			state.params = curParams
 		}
 	}
 });

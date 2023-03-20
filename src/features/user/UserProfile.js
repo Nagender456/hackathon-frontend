@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useNavigate, useParams } from 'react-router-dom';
 import {toast} from 'react-toastify';
-import { useDispatch } from 'react-redux';
 
 const UserProfile = () => {
 	const { username } = useParams();
@@ -22,7 +21,6 @@ const UserProfile = () => {
 					signal: controller.signal
 				});
 				setUserProfile(response.data);
-				console.log(userProfile);
 				setIsloading(false);
 			} catch (err) {
 				if (err.name === 'CanceledError') {
