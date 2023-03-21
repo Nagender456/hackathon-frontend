@@ -33,12 +33,12 @@ const App = () => {
 			/>
 			<NavBar />
 			<Routes>
+				<Route path='/' element={<Home />} />
 				<Route element={<PersistLogin />}>
 					<Route element={<RequireAuth />}>
 						<Route path='/feeds/create' element={<FeedForm />} />
 						<Route path='/edit' element={<UserEdit />} />
 					</Route>
-					<Route path='/' element={<Home />} />
 					<Route path='/home' element={<Home />} />
 					<Route path='/feeds/:creator?' element={<Feeds />} />
 					<Route path='/feed/:id' element={<Feed />} />

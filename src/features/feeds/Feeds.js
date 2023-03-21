@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import FeedCard from './feed-card/FeedCard';
 import useDynamicFeeds from '../../hooks/useDynamicFeeds';
 import { useParams } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 import SearchBar from './SearchBar';
 
 const Feeds = () => {
@@ -11,6 +12,7 @@ const Feeds = () => {
 	const { creator } = useParams();
 	const [pageNum, setPageNum] = useState(1);
 	const [query, setQuery] = useState('');
+	const {auth} = useAuth();
 	const [isLoading, hasNextPage, setHasNextPage, zeroFeeds] = useDynamicFeeds(pageNum, creator, query);
 	
 	const intObserver = useRef();
@@ -32,7 +34,7 @@ const Feeds = () => {
 	return (
 		<>
 			<div className='page-container'>
-				<SearchBar setQuery={setQuery} />
+				{auth?.isLogin ? <SearchBar setQuery={setQuery} /> : ''}
 				{ zeroFeeds 
 					? <h1 className='page-heading'>No Feeds Found</h1>
 					: <div className='feeds-container'>
